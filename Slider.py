@@ -18,7 +18,7 @@ class Slider(object):
         self.value = value
         
 
-    def update(self,mpos, mpress, mrel):
+    def update(self,mpos, mpress, mrel, action):
         if (mpos[0] > (self.pos[0]+self.value)) and (mpos[0] < (self.pos[0]+self.value)+self.bar_length):
             if mpos[1]>self.pos[1] and mpos[1] < self.pos[1]+self.height:
                 if mpress[0]:
