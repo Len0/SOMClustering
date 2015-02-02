@@ -1,5 +1,5 @@
 import random
-from operator import sub, mul
+from operator import sub, mul, add
 
 class SOMNode:
 
@@ -30,7 +30,7 @@ class SOMNode:
 		self._weights = [random.random() for x in range(numWeight)]
 
 	def distance(self, node):
-		euclid_distance = map(sub, self._weights, node.weights)
+		euclid_distance = list(map(sub, self._weights, node.weights))
 		euclid_distance = [x**2 for x in euclid_distance]
 		euclid_distance = sum(euclid_distance)
 		return euclid_distance
@@ -38,9 +38,9 @@ class SOMNode:
 	def updateWeights(self, inputPair, learningRate, falloff):
 		w = self._weights
 		p = inputPair.weights
-		dw =  map(sub, p, w)
-		wt =  map(mul, w, dw)
-		self._weights += [x*falloff*learningRate for x in wt]
+		dw =  list(map(sub, p, w))
+		self._weights = list(map(add, self._weights, [x*falloff*learningRate for x in dw]))
+
 
 
 

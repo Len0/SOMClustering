@@ -1,4 +1,5 @@
 import pygame
+import math
 from Slider import Slider
 from Button import Button
 
@@ -17,8 +18,8 @@ class SOMRenderer:
 		self.width = 600;
 		self.statusHeight = 90
 		self.height = 600+self.statusHeight;
-		self.cellWidth = self.width/self.lattice.width;
-		self.cellHeight = (self.height-self.statusHeight)/self.lattice.height;
+		self.cellWidth = math.floor(self.width/self.lattice.width)
+		self.cellHeight = math.floor((self.height-self.statusHeight)/self.lattice.height);
 		self.action = ['NaN']
 		self.colorList = colorList
 		self.currentSelectedColor = (0,0,0)
@@ -35,7 +36,7 @@ class SOMRenderer:
 		self.sliders =[self.s1, self.s2, self.s3]
 
 		self.b1 = Button(120, 5, ((self.width, self.height-self.statusHeight)),"Step",1)
-		self.b2 = Button(170, 5, ((self.width, self.height-self.statusHeight)),"Play",2)
+		self.b2 = Button(170, 5, ((self.width, self.height-self.statusHeight)),"Train",2)
 		self.b3 = Button(220, 5, ((self.width, self.height-self.statusHeight)),"Pause",3)
 		self.b4 = Button(270, 5, ((self.width, self.height-self.statusHeight)),"Stop",4)
 		self.b5 = Button(170, 65, ((self.width, self.height-self.statusHeight)),"Test",5)
@@ -57,7 +58,9 @@ class SOMRenderer:
 		pygame.draw.rect(self.screen, (0,0,0),((y*self.cellWidth, x*self.cellHeight),(self.cellWidth,self.cellHeight)),1)) \
 		 for y in range(self.lattice.width)] for x in range(self.lattice.height)]
 
-		
+	def markBMU(self, BMUNode):
+		pygame.draw.circle(self.screen, (0,0,0),(BMUNode.ypos*self.cellWidth+10, BMUNode.xpos*self.cellHeight+10),10,0)
+
 	def renderStatusScreen(self, mpos, mpress, mrel, iterationCount, colorList):
 		#render statusSurface
 		self.statusSurface.fill((100,100,100))
