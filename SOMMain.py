@@ -19,7 +19,7 @@ class SOMMain:
 		#asda
 		self.inputNode = SOMNode(None,None,3)
 		#Main screen initialization
-		self.matrix = SOMLattice(40,40,3);
+		self.matrix = SOMLattice(100,100,3);
 		self.rend = SOMRenderer(self.matrix, self.inputColorList);
 		self.trainer = SOMTrainer(self.matrix)
 		self.rend.renderMainScreen();
@@ -58,10 +58,14 @@ class SOMMain:
 			if(button == "Del"):
 				if len(self.inputColorList) > 0:
 					self.inputColorList.pop()
-			if(button == "Test" and self.isPaused):
-				pass
+			if(button == "Test"):
+				self.simulateSelectedColor()
 		self.rend.action[0] = "Nan"
 		self.buttonpress = 0
+
+	def simulateSelectedColor(self):
+		testNode = self.colorToNode(self.rend.currentSelectedColor)
+		self.rend.markBMU(self.matrix.findBMU(testNode))
 
 	def getBMU(self):
 		listLenght = len(self.inputColorList)
@@ -72,6 +76,7 @@ class SOMMain:
 			node = self.matrix.findBMU(testNode)
 
 			self.rend.markBMU(node)	
+
 	def colorToNode(self, color):
 		newNode = SOMNode(None, None, 3)
 		newNode.weights = self.normalizeValues(color)
@@ -89,10 +94,13 @@ class SOMMain:
 				self.iteration = self.iteration+1
 				inputNode = self.colorToNode(self.inputColorList[((self.iteration+listLenght-1)%listLenght)])
 				self.trainer.trainEpoch(self.matrix, self.iteration,inputNode)
+			else:
+				self.isRunning = False
 			self.isSteped = 0
 			self.rend.renderMainScreen();
 			
-
+			
+		
 		self.rend.renderStatusScreen(self.mpos, self.mpress, self.mrel,self.iteration, self.inputColorList)
 
 		

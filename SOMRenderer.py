@@ -59,6 +59,7 @@ class SOMRenderer:
 		 for y in range(self.lattice.width)] for x in range(self.lattice.height)]
 
 	def markBMU(self, BMUNode):
+		pygame.draw.circle(self.screen, (1,1,1),(BMUNode.ypos*self.cellWidth+10, BMUNode.xpos*self.cellHeight+10),10,2)
 		pygame.draw.circle(self.screen, (0,0,0),(BMUNode.ypos*self.cellWidth+10, BMUNode.xpos*self.cellHeight+10),10,0)
 
 	def renderStatusScreen(self, mpos, mpress, mrel, iterationCount, colorList):
