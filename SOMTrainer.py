@@ -13,11 +13,14 @@ class SOMTrainer:
 		self.timeConstant = self.numIterations / math.log(self.latticeRadius)
 
 
-
+	#function for normalazing RGB values to interval [0,1]
 	def normalizeValues(self, color):
 		weightVector = [i/255 for i in color]
 		return weightVector
 
+	#function for finding best matching unit
+	#iterates trough colors that represent sample data
+	#for each iteration one color is presented to neuron lattice and BMU is found
 	def getBMU(self):
 		listLenght = len(self.inputList)
 		if listLenght > 0:
@@ -25,18 +28,18 @@ class SOMTrainer:
 			testNode = SOMNode(None,None,3)
 			testNode.weights = node;
 			node = self.matrix.findBMU(testNode)
-			self.rend.markBMU(node)	
 
+	#function for determining radius of neighborhood circle
 	def getNeighborhoodRadius(self, iteration):
 		return self.latticeRadius * math.exp(-iteration/self.timeConstant)
 
+	#function that sets distance falloff parameter
 	def getDistanceFalloff(self, distanceSquared, radius):
 		radiusSquared = radius * radius;
 		return math.exp(-(distanceSquared)/(2*radiusSquared));
 
-	def setParameters():
-		pass
-
+	#function that trains SOM for one epoch
+	#uses nbhRadius to determine rectangle sides
 	def trainEpoch(self, matrix, iteration, input):
 		nbhRadius = self.getNeighborhoodRadius(iteration);
 		bmu = matrix.findBMU(input);
@@ -59,12 +62,5 @@ class SOMTrainer:
 					temp.updateWeights(input, self.learningRate, dFalloff);
 
 		self.learningRate = self.baseLearningRate * math.exp(-iteration/self.numIterations)
-
-		
-	def stop():
-		pass
-
-	def run():
-		pass
 
 
